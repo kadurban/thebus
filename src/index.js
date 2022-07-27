@@ -1,20 +1,36 @@
 import React  from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './components/App';
 import { MoralisProvider } from "react-moralis";
+import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <MoralisProvider appId="Jp4M6lDssIQedwgnriGStK7GGiuNVvlDcNTcK7XP" serverUrl="https://przkhf4o2l5j.usemoralis.com:2053/server">
-      <App />
-    </MoralisProvider>
-  </React.StrictMode>
+  <MoralisProvider appId="Jp4M6lDssIQedwgnriGStK7GGiuNVvlDcNTcK7XP" serverUrl="https://przkhf4o2l5j.usemoralis.com:2053/server">
+    <App />
+  </MoralisProvider>
 );
 
-window.soccerContractAddress = '0x4df5aB3376fdBA0861dabc251Dd1ac4A5B900e2A';
+window.soccerContractAddress = '0x0a547Ad7E20b1CE93344C33D6b9bc0d92D82c675';
 window.soccerContractAbi = [
+  {
+    "inputs": [
+      {
+        "internalType": "uint16",
+        "name": "_eventId",
+        "type": "uint16"
+      },
+      {
+        "internalType": "uint16",
+        "name": "_bucketIdx",
+        "type": "uint16"
+      }
+    ],
+    "name": "payout",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
   {
     "inputs": [
       {
@@ -23,9 +39,9 @@ window.soccerContractAbi = [
         "type": "string"
       },
       {
-        "internalType": "uint8",
+        "internalType": "uint256",
         "name": "_voteSize",
-        "type": "uint8"
+        "type": "uint256"
       }
     ],
     "name": "setupEvent",
@@ -47,9 +63,9 @@ window.soccerContractAbi = [
         "type": "uint16"
       },
       {
-        "internalType": "uint8",
+        "internalType": "uint16",
         "name": "_bucketIdx",
-        "type": "uint8"
+        "type": "uint16"
       }
     ],
     "name": "submitVote",
@@ -58,7 +74,13 @@ window.soccerContractAbi = [
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_commissionAddress",
+        "type": "address"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "constructor"
   },
@@ -66,7 +88,7 @@ window.soccerContractAbi = [
     "inputs": [
       {
         "internalType": "uint16",
-        "name": "_eventIdx",
+        "name": "_eventId",
         "type": "uint16"
       }
     ],
@@ -80,9 +102,9 @@ window.soccerContractAbi = [
             "type": "string"
           },
           {
-            "internalType": "uint8",
+            "internalType": "uint256",
             "name": "voteSize",
-            "type": "uint8"
+            "type": "uint256"
           },
           {
             "internalType": "address[]",
@@ -90,12 +112,22 @@ window.soccerContractAbi = [
             "type": "address[]"
           },
           {
-            "internalType": "uint8[]",
+            "internalType": "uint16[]",
             "name": "buckets",
-            "type": "uint8[]"
+            "type": "uint16[]"
+          },
+          {
+            "internalType": "uint256",
+            "name": "pot",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address[]",
+            "name": "payoutAddresses",
+            "type": "address[]"
           }
         ],
-        "internalType": "struct SoccerEventManagerWith8bitBuckets.Event",
+        "internalType": "struct SoccerEventManager.Event",
         "name": "",
         "type": "tuple"
       }

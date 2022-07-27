@@ -5,8 +5,8 @@ import {
 } from "react-router-dom";
 
 import Header from "./Header";
-import EventCreate from "./EventCreate";
-import EventList from "./EventList";
+import EventBuckets from "./EventBuckets";
+import EventListOngoing from "./EventListOngoing";
 
 function App() {
   return (
@@ -14,9 +14,8 @@ function App() {
       <div className="container mx-auto flex flex-col items-center justify-items-stretch">
         <Header/>
         <Routes>
-          <Route path="/" element={<EventList/>} />
-          {/*<Route path="/" element={<EventList/>} />*/}
-          <Route path="/create" element={<EventCreate/>} />
+          <Route path="/" element={<EventListOngoing/>} />
+          <Route path="/events/:eventId" element={<EventBuckets/>} />
         </Routes>
       </div>
     </Router>

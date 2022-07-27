@@ -1,7 +1,14 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
-function EventCreate() {
+function EventBuckets() {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const { eventId } = useParams();
+
+  useEffect(() => {
+    console.log(eventId)
+  }, []);
 
   return (
     <form className="flex flex-col max-w-xl w-full" onSubmit={handleSubmit(data => console.log(data))}>
@@ -36,4 +43,4 @@ function EventCreate() {
   );
 }
 
-export default EventCreate;
+export default EventBuckets;

@@ -96,6 +96,14 @@ describe('TheBus SoccerEventManager testing...', function () {
   it('Print users balances', async function() {
     await printBalances();
   });
+
+  it('Payout can not be invoked twice for same event', async function() {
+
+  });
+
+  it('Checks if no winners then making money back excluding commission', async function() {
+
+  });
 })
 
 async function printBalances() {
