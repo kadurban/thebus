@@ -11,14 +11,64 @@ root.render(
   </MoralisProvider>
 );
 
-window.soccerContractAddress = '0x0a547Ad7E20b1CE93344C33D6b9bc0d92D82c675';
-window.soccerContractAbi = [
+window.eventManagerContractAddress = '0x5724AD9E48Cb96CA1b0112ea990Dc630001Ea1EE';
+window.eventManagerContractAbi = [
   {
     "inputs": [
       {
-        "internalType": "uint16",
+        "internalType": "address",
+        "name": "_adminAddress",
+        "type": "address"
+      }
+    ],
+    "name": "addAdmin",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_commissionAddress",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "JackPotIncreased",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "JackPotSuccess",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
         "name": "_eventId",
-        "type": "uint16"
+        "type": "uint32"
       },
       {
         "internalType": "uint16",
@@ -27,6 +77,84 @@ window.soccerContractAbi = [
       }
     ],
     "name": "payout",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "PayoutMade",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_adminAddress",
+        "type": "address"
+      }
+    ],
+    "name": "removeAdmin",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint8",
+        "name": "_percent",
+        "type": "uint8"
+      }
+    ],
+    "name": "setCommissionPercent",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "_eventId",
+        "type": "uint32"
+      }
+    ],
+    "name": "setEventStatusToVotingDisabled",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint8",
+        "name": "_frequency",
+        "type": "uint8"
+      }
+    ],
+    "name": "setJackPotFrequency",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint8",
+        "name": "_percent",
+        "type": "uint8"
+      }
+    ],
+    "name": "setPromoterPercent",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -47,9 +175,9 @@ window.soccerContractAbi = [
     "name": "setupEvent",
     "outputs": [
       {
-        "internalType": "uint16",
+        "internalType": "uint32",
         "name": "",
-        "type": "uint16"
+        "type": "uint32"
       }
     ],
     "stateMutability": "nonpayable",
@@ -58,14 +186,19 @@ window.soccerContractAbi = [
   {
     "inputs": [
       {
-        "internalType": "uint16",
+        "internalType": "uint32",
         "name": "_eventId",
-        "type": "uint16"
+        "type": "uint32"
       },
       {
         "internalType": "uint16",
         "name": "_bucketIdx",
         "type": "uint16"
+      },
+      {
+        "internalType": "address",
+        "name": "_promoter",
+        "type": "address"
       }
     ],
     "name": "submitVote",
@@ -74,28 +207,73 @@ window.soccerContractAbi = [
     "type": "function"
   },
   {
+    "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
         "internalType": "address",
-        "name": "_commissionAddress",
+        "name": "",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
+    "name": "VoteSubmitted",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "commissionPercent",
+    "outputs": [
+      {
+        "internalType": "uint8",
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
     "inputs": [
       {
-        "internalType": "uint16",
+        "internalType": "address",
+        "name": "_adminAddress",
+        "type": "address"
+      }
+    ],
+    "name": "ensureAdminByAddress",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
         "name": "_eventId",
-        "type": "uint16"
+        "type": "uint32"
       }
     ],
     "name": "getEventData",
     "outputs": [
       {
         "components": [
+          {
+            "internalType": "enum EventManager.EventStatus",
+            "name": "status",
+            "type": "uint8"
+          },
           {
             "internalType": "string",
             "name": "title",
@@ -127,7 +305,7 @@ window.soccerContractAbi = [
             "type": "address[]"
           }
         ],
-        "internalType": "struct SoccerEventManager.Event",
+        "internalType": "struct EventManager.Event",
         "name": "",
         "type": "tuple"
       }
@@ -136,13 +314,90 @@ window.soccerContractAbi = [
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "getEventsCount",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_address",
+        "type": "address"
+      }
+    ],
+    "name": "getPromotedByAddress",
     "outputs": [
       {
-        "internalType": "uint16",
+        "internalType": "address[]",
         "name": "",
-        "type": "uint16"
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "jackPot",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "jackPotFrequency",
+    "outputs": [
+      {
+        "internalType": "uint8",
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "lastEventId",
+    "outputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "promoterPercent",
+    "outputs": [
+      {
+        "internalType": "uint8",
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "userToPromoterMapping",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
       }
     ],
     "stateMutability": "view",

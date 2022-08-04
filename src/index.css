@@ -5,6 +5,11 @@
 body {
     @apply text-gray-700;
     background-color: #f8f8f8;
+    height: 100vh;
+}
+
+#root {
+    height: 100vh;
 }
 
 /* Buttons and links */
@@ -24,7 +29,11 @@ body {
     background-image: linear-gradient(176deg, #fff5c8, rgba(237,221,152,.7));
 }
 
-.link-gold {
+.bg-default {
+    background-color: #f8f8f8;
+}
+
+.text-gold {
     color: #a59447;
 }
 

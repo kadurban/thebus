@@ -60,7 +60,7 @@ contract EventManager {
 
     function ensureAdminByAddress(
         address _adminAddress
-    ) external onlyAdmin view returns (bool) {
+    ) external view returns (bool) {
         return admins[_adminAddress] == 1;
     }
 

@@ -1,33 +1,32 @@
 import { NavLink } from "react-router-dom";
-import { FaFutbol, FaUser } from 'react-icons/fa';
-import { useMoralis } from "react-moralis";
+import {useContext, useState} from 'react';
+import { FaFutbol, FaPlusSquare } from 'react-icons/fa';
+import { MdAdd, MdHome } from 'react-icons/md';
+import { MdMenu } from 'react-icons/md';
+import { AppSettingsContext } from '../appSettingsContext';
 
 function Menu() {
-  const { authenticate, isAuthenticated, logout } = useMoralis();
+  const { isAdmin } = useContext(AppSettingsContext);
+  const [ isMenuOpened, setIsMenuOpened ] = useState(false);
+
+  const handleMenuToggle = () => {
+    setIsMenuOpened(!isMenuOpened);
+  };
 
   return (
-    <div className="flex flex-row w-full justify-between">
-      <div>
-        <NavLink to="/" className="p-4 flex">
-          <FaFutbol className="pr-2 mt-1 w-8"/> Football
+    <div className="flex">
+      <button className="hidden sm:block px-4 py-3" onClick={() => handleMenuToggle()}>
+        <MdMenu size="2em" color="#a59447"/>
+      </button>
+      <div className={`flex sm:${ isMenuOpened ? 'block' : 'hidden'} sm:absolute sm:w-full sm:shadow-xl sm:z-50 sm:top-full bg-default`}>
+      {/*<div className="flex sm:hidden">*/}
+        <NavLink to="/" className="p-3 flex items-center text-gold" onClick={() => handleMenuToggle()}>
+          <MdHome size="2em" className="mr-2"/> Main page
         </NavLink>
+        {isAdmin && <NavLink to="/admin/setup-event" className="p-3 flex items-center text-gold" onClick={() => handleMenuToggle()}>
+          <MdAdd size="2em" className="mr-2"/> Setup event
+        </NavLink>}
       </div>
-      <div>
-        {!isAuthenticated ? (
-          <button className="p-4 flex link-gold" onClick={() => authenticate()}>
-            <FaUser className="pr-2 mt-1 w-8"/> Connect
-          </button>
-        ) : (
-          <div className="flex">
-            <button className="p-4 flex link-gold" onClick={() => logout()}>
-              Disconnect
-            </button>
-          </div>
-        )}
-      </div>
-      {/*<NavLink to="/create" className="p-4 flex" activeClassName="font-bold">
-        <FaPlusSquare className="pr-2 w-8"/> Create event
-      </NavLink>*/}
     </div>
   );
 }

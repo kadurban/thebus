@@ -3,8 +3,8 @@ import { ethers } from "ethers";
 import EventItem from "./EventItem";
 
 function EventListOngoing() {
-  const [ signer, setSigner ] = useState(null);
-  const [ contract, setContract ] = useState(null);
+  // const [ signer, setSigner ] = useState(null);
+  // const [ contract, setContract ] = useState(null);
   const [ eventsCount, setEventsCount ] = useState(null);
   const [ events, setEvents ] = useState([]);
 
@@ -26,18 +26,13 @@ function EventListOngoing() {
   //   setEvents([...events, { id, pot, title, voteSize, buckets }])
   // }
 
-  async function getEventsCount() {
-    console.log('+++', contract)
-    const eventsCount = await contract.getEventsCount();
-    setEventsCount(eventsCount);
-  }
+  // async function getEventsCount() {
+  //   console.log('+++', contract)
+  //   const eventsCount = await contract.getEventsCount();
+  //   setEventsCount(eventsCount);
+  // }
 
   useEffect(() => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(window.soccerContractAddress, window.soccerContractAbi, signer);
-    setSigner(signer);
-    setContract(contract);
     // console.log('===', signer, contract);
     // getEventsCount();
   }, []);
@@ -50,13 +45,17 @@ function EventListOngoing() {
   // }, [ signer, contract ]);
 
   return (
-    <div className="container mx-auto">
+    <>
       Total events: {eventsCount}
-      <hr/>
       <div className="grid grid-cols-3 gap-4">
         {events.map((event) => <EventItem key={event.id} {...event}/>)}
       </div>
-    </div>
+      {/*<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1*/}
+      {/*<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1*/}
+      {/*<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1*/}
+      {/*<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1*/}
+      {/*<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1*/}
+    </>
   );
 }
 

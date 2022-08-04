@@ -9,7 +9,7 @@ let commissionWallet;
 let players = {};
 let promoters = { promoter1: null, promoter2: null };
 
-describe('TheBus SoccerEventManager testing...', function () {
+describe('TheBus EventManager contract testing...', function () {
 
   describe('Initialization', async () => {
     it('Prepare users', async function() {
@@ -187,7 +187,7 @@ describe('TheBus SoccerEventManager testing...', function () {
       ).to.be.revertedWith("Only admin can do it.");
     });
 
-    it('Admin initiate payout and balances of players, promoters and commissionWallet are verified', async () => {
+    it('Calling payout() and checking balances of players, promoters and commissionWallet are looking good', async () => {
       expect(parseInt(ethers.utils.formatEther(await ethers.provider.getBalance(players.player1.address)))).to.equal(7999);
       expect(parseInt(ethers.utils.formatEther(await ethers.provider.getBalance(players.player2.address)))).to.equal(8999);
       expect(parseInt(ethers.utils.formatEther(await ethers.provider.getBalance(players.player3.address)))).to.equal(8999);
@@ -308,7 +308,7 @@ describe('TheBus SoccerEventManager testing...', function () {
       expect(parseInt(ethers.utils.formatEther(await eventManagerContract.jackPot()))).to.equal(9000);
     });
 
-    it('Calling payout function for last event (id of 7) and ensure that player14 and player15  balances are increased and jackPot == 0', async () => {
+    it('Calling payout function for last event (id of 7) and ensure that player14 and player15  balances are increased', async () => {
       await eventManagerContract.connect(admin1).payout(7, 9);
       expect(parseInt(ethers.utils.formatEther(await ethers.provider.getBalance(players.player14.address)))).to.equal(13399);
       expect(parseInt(ethers.utils.formatEther(await ethers.provider.getBalance(players.player15.address)))).to.equal(13399);
