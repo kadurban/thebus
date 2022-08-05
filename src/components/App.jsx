@@ -7,10 +7,13 @@ import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 import { ethers } from "ethers";
 import { AppSettingsContext } from "../appSettingsContext";
+import ErrorBoundary from "./ErrorBoundary";
+import NotFound from "./NotFound";
 import Header from "./Header";
 import EventBuckets from "./EventBuckets";
 import SetupEvent from "./admin/SetupEvent";
 import EventListOngoing from "./EventListOngoing";
+import Earn from "./Earn";
 
 function App() {
   const { user, isAuthenticated } = useMoralis();
@@ -42,21 +45,24 @@ function App() {
   }, [ isAuthenticated ]);
 
   return (
-    <Router>
-      <AppSettingsContext.Provider value={{ isWeb3Supported, provider, isAdmin, signer, contract }}>
-      <div className="container mx-auto flex flex-col items-center justify-items-stretch">
-        <Header/>
-        <div className="container mx-auto p-4">
-          <Routes>
-            <Route path="/" element={<EventListOngoing/>} />
-            <Route path="/events/:eventId" element={<EventBuckets/>} />
-            <Route path="/admin/setup-event" element={<SetupEvent/>} />
-            <Route path="*" element={<h2 className="text-xl font-bold">404 - Page not found.</h2>}/>
-          </Routes>
-        </div>
-      </div>
-      </AppSettingsContext.Provider>
-    </Router>
+      <Router>
+        <AppSettingsContext.Provider value={{ isWeb3Supported, provider, isAdmin, signer, contract }}>
+          <div className="container mx-auto flex flex-col items-center justify-items-stretch">
+            <ErrorBoundary>
+              <Header/>
+              <div className="container mx-auto p-4 pt-8 sm:pt-4">
+                <Routes>
+                  <Route path="/" element={<EventListOngoing/>} />
+                  <Route path="/earn" element={<Earn/>} />
+                  <Route path="/events/:eventId" element={<EventBuckets/>} />
+                  {isAdmin && <Route path="/admin/setup-event" element={<SetupEvent/>} />}
+                  <Route path="*" element={<NotFound/>}/>
+                </Routes>
+              </div>
+            </ErrorBoundary>
+          </div>
+        </AppSettingsContext.Provider>
+      </Router>
   );
 }
 

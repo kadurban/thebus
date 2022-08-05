@@ -1,6 +1,6 @@
 function EventItem({ id, pot, title, voteSize, buckets }) {
   return (
-    <div className="">
+    <div >
       {JSON.stringify({ id, pot, title, voteSize, buckets }, null, 2)}
     </div>
   );

@@ -6,6 +6,7 @@ contract EventManager {
     struct Event {
         EventStatus status;
         string title;
+        string imageUrl;
         uint256 voteSize;
         address[] addresses;
         uint16[] buckets;
@@ -96,6 +97,7 @@ contract EventManager {
 
     function setupEvent(
         string memory _title,
+        string memory _imageUrl,
         uint256 _voteSize
     ) external onlyAdmin returns (uint32) {
         require(bytes(_title).length != 0, "Title was not provided");
@@ -104,6 +106,7 @@ contract EventManager {
         Event memory newEvent = Event(
             EventStatus.VOTING_ENABLED,
             _title,
+            _imageUrl,
             _voteSize,
             new address[](0),
             new uint16[](0),

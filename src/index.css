@@ -37,6 +37,11 @@ body {
     color: #a59447;
 }
 
+.text-content {
+    @apply my-8;
+    line-height: 1.6rem;
+}
+
 /* Forms */
 .form-group {
     @apply py-4 flex flex-col;
