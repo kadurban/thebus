@@ -28,6 +28,20 @@ body {
     @apply shadow-md shadow-inner;
     background-image: linear-gradient(176deg, #fff5c8, rgba(237,221,152,.7));
 }
+.btn[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+a {
+    @apply text-gray-700;
+    @apply transition-colors;
+}
+
+a:hover {
+    @apply text-gold;
+}
 
 .bg-default {
     background-color: #f8f8f8;
@@ -37,19 +51,46 @@ body {
     color: #a59447;
 }
 
+.border-gold-2 {
+    @apply border-2;
+    border-color: #a59447;
+}
+
+.border-gold-4 {
+    @apply border-4;
+    border-color: #a59447;
+}
+
 .text-content {
     @apply my-8;
     line-height: 1.6rem;
 }
 
+.page-title {
+    @apply text-2xl font-bold sm:text-center mb-4;
+}
+
+.subtitle {
+    @apply text-xl font-bold sm:text-center mb-4;
+}
+
 /* Forms */
 .form-group {
-    @apply py-4 flex flex-col;
+    @apply py-3 flex flex-col;
 }
+
 .form-group > label {
     @apply font-medium;
+    @apply mb-1
 }
 
 .form-input {
     @apply rounded-lg border-gray-400;
+}
+
+.form-multiselect,
+.form-select,
+.form-textarea,
+.form-input {
+    @apply rounded-lg;
 }

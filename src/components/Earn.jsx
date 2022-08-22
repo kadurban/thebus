@@ -17,12 +17,16 @@ function Earn() {
 
   return (
     <>
-      <h1 className="text-xl font-bold text-center">
-        Earn crypto. We share with you 50/50.
+      <h1 className="page-title">
+        Earn crypto with us
       </h1>
-      <div className="text-content text-center">
-        <FaBitcoin size="5em" className="inline-block mb-6"/>
-        <br/>
+      <br/>
+      <div className="text-l font-bold sm:text-center">
+        We share with you 50/50
+      </div>
+      <div className="text-content">
+        {/*<FaBitcoin size="5em" className="inline-block mb-6"/>*/}
+        {/*<br/>*/}
         For every vote placed by someone who was invited by you you will get <b>{ promoterPercent }%</b>
       </div>
     </>

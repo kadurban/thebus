@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react';
-import { ethers } from "ethers";
+import { useState, useEffect, useContext } from 'react';
+import {AppSettingsContext} from "../appSettingsContext";
 import EventItem from "./EventItem";
 
 function EventListOngoing() {
-  // const [ signer, setSigner ] = useState(null);
-  // const [ contract, setContract ] = useState(null);
+  const { contract } = useContext(AppSettingsContext);
   const [ eventsCount, setEventsCount ] = useState(null);
   const [ events, setEvents ] = useState([]);
 
@@ -26,23 +25,14 @@ function EventListOngoing() {
   //   setEvents([...events, { id, pot, title, voteSize, buckets }])
   // }
 
-  // async function getEventsCount() {
-  //   console.log('+++', contract)
-  //   const eventsCount = await contract.getEventsCount();
-  //   setEventsCount(eventsCount);
-  // }
+  async function getEventsCount() {
+    const eventsCount = await contract.lastEventId();
+    setEventsCount(eventsCount);
+  }
 
   useEffect(() => {
-    // console.log('===', signer, contract);
-    // getEventsCount();
+    getEventsCount();
   }, []);
-
-  // useEffect(() => {
-  //   if (contract && signer) {
-  //     console.log('===')
-  //     getEventsCount();
-  //   }
-  // }, [ signer, contract ]);
 
   return (
     <>
@@ -50,11 +40,6 @@ function EventListOngoing() {
       <div className="grid grid-cols-3 gap-4">
         {events.map((event) => <EventItem key={event.id} {...event}/>)}
       </div>
-      {/*<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1*/}
-      {/*<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1*/}
-      {/*<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1*/}
-      {/*<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1*/}
-      {/*<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1*/}
     </>
   );
 }

@@ -4,6 +4,7 @@ pragma solidity ^0.8.15;
 contract EventManager {
     enum EventStatus{VOTING_ENABLED, VOTING_DISABLED, PAYOUT_WAS_DONE}
     struct Event {
+        uint8 eventType;
         EventStatus status;
         string title;
         string imageUrl;
@@ -96,6 +97,7 @@ contract EventManager {
     }
 
     function setupEvent(
+        uint8 _eventType,
         string memory _title,
         string memory _imageUrl,
         uint256 _voteSize
@@ -104,6 +106,7 @@ contract EventManager {
         require(_voteSize > 0, "Vote size must be more then 0");
         lastEventId++;
         Event memory newEvent = Event(
+            _eventType,
             EventStatus.VOTING_ENABLED,
             _title,
             _imageUrl,

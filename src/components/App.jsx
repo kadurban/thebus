@@ -11,7 +11,7 @@ import ErrorBoundary from "./ErrorBoundary";
 import NotFound from "./NotFound";
 import Header from "./Header";
 import EventBuckets from "./EventBuckets";
-import SetupEvent from "./admin/SetupEvent";
+import SetupEventForm from "./admin/SetupEventForm";
 import EventListOngoing from "./EventListOngoing";
 import Earn from "./Earn";
 
@@ -50,15 +50,15 @@ function App() {
           <div className="container mx-auto flex flex-col items-center justify-items-stretch">
             <ErrorBoundary>
               <Header/>
-              <div className="container mx-auto p-4 pt-8 sm:pt-4">
+              {contract && <div className="container mx-auto p-4 pt-8 sm:pt-4">
                 <Routes>
                   <Route path="/" element={<EventListOngoing/>} />
                   <Route path="/earn" element={<Earn/>} />
                   <Route path="/events/:eventId" element={<EventBuckets/>} />
-                  {isAdmin && <Route path="/admin/setup-event" element={<SetupEvent/>} />}
+                  {isAdmin && <Route path="/admin/setup-event" element={<SetupEventForm/>} />}
                   <Route path="*" element={<NotFound/>}/>
                 </Routes>
-              </div>
+              </div>}
             </ErrorBoundary>
           </div>
         </AppSettingsContext.Provider>
