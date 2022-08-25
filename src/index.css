@@ -14,24 +14,33 @@ body {
 
 /* Buttons and links */
 .btn {
-    @apply font-bold py-2 px-4 rounded-lg;
+    @apply font-bold py-2 px-4 rounded-lg shadow-md transition-shadow;
 }
-.btn-gold {
-    @apply shadow-md transition-shadow;
-    background-image: linear-gradient(176deg, #fff5c8, rgba(237,221,152,.7));
-}
-.btn-gold:hover {
+.btn:hover {
     @apply shadow;
-    background-image: linear-gradient(176deg, #fff5c8, rgba(237,221,152,.7));
 }
-.btn-gold:active {
+.btn:active {
     @apply shadow-md shadow-inner;
-    background-image: linear-gradient(176deg, #fff5c8, rgba(237,221,152,.7));
 }
 .btn[disabled] {
     opacity: 0.6;
     cursor: not-allowed;
     box-shadow: none;
+}
+.btn-no-shadow {
+    @apply shadow-none;
+}
+.btn-no-shadow:hover {
+    @apply shadow-none;
+}
+
+.btn-white {
+    color: #a59447;
+    background-image: linear-gradient(176deg, #ffffff, rgba(255, 255, 255, 0.7));
+}
+
+.btn-gold {
+    background-image: linear-gradient(176deg, #fff5c8, rgba(237,221,152,.7));
 }
 
 a {
@@ -43,6 +52,10 @@ a:hover {
     @apply text-gold;
 }
 
+a.no-gold-hover:hover {
+    @apply text-gray-700;
+}
+
 .bg-default {
     background-color: #f8f8f8;
 }
@@ -50,10 +63,23 @@ a:hover {
 .text-gold {
     color: #a59447;
 }
+.text-gold:hover {
+    color: #a59447 !important;
+}
 
 .border-gold-2 {
     @apply border-2;
     border-color: #a59447;
+}
+
+.border-gold-light-1 {
+    border-width: 1px;
+    border-color: rgba(237,221,152,.7);
+}
+
+.border-bottom-gold-light-1 {
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(237,221,152,.7);
 }
 
 .border-gold-4 {

@@ -7,7 +7,7 @@ contract EventManager {
         uint8 eventType;
         EventStatus status;
         string title;
-        string imageUrl;
+//        string imageUrl;
         uint256 voteSize;
         address[] addresses;
         uint16[] buckets;
@@ -99,7 +99,7 @@ contract EventManager {
     function setupEvent(
         uint8 _eventType,
         string memory _title,
-        string memory _imageUrl,
+//        string memory _imageUrl,
         uint256 _voteSize
     ) external onlyAdmin returns (uint32) {
         require(bytes(_title).length != 0, "Title was not provided");
@@ -109,7 +109,7 @@ contract EventManager {
             _eventType,
             EventStatus.VOTING_ENABLED,
             _title,
-            _imageUrl,
+//            _imageUrl,
             _voteSize,
             new address[](0),
             new uint16[](0),
@@ -159,41 +159,45 @@ contract EventManager {
         require(events[_eventId].addresses.length == events[_eventId].buckets.length, "Length of addresses not equals to length of votes");
         require(events[_eventId].status != EventStatus.PAYOUT_WAS_DONE, "Payouts was made already.");
 
-        uint commissionAmount = events[_eventId].pot / 100 * commissionPercent;
-        uint promoterAmount = events[_eventId].pot / 100 * promoterPercent;
-        uint payoutAmount = events[_eventId].pot - commissionAmount - promoterAmount;
+        if (events[_eventId].addresses.length > 0) {
+            uint commissionAmount = events[_eventId].pot / 100 * commissionPercent;
+            uint promoterAmount = events[_eventId].pot / 100 * promoterPercent;
+            uint payoutAmount = events[_eventId].pot - commissionAmount - promoterAmount;
 
-        withdraw(payable(commissionAddress), commissionAmount);
+            withdraw(payable(commissionAddress), commissionAmount);
 
-        // payout to promoters
-        uint singlePromoterPayout = promoterAmount / events[_eventId].addresses.length;
-        for (uint16 plrIdx = 0; plrIdx < events[_eventId].addresses.length; plrIdx++) {
-            address playerAddress = events[_eventId].addresses[plrIdx];
-            withdraw(payable(userToPromoterMapping[playerAddress]), singlePromoterPayout);
-        }
-
-        // Filling in payoutAddresses array with winners addresses for further payout
-        for (uint16 bIdx = 0; bIdx < events[_eventId].buckets.length; bIdx++) {
-            if (_bucketIdx == events[_eventId].buckets[bIdx]) {
-                events[_eventId].payoutAddresses.push(events[_eventId].addresses[bIdx]);
+            // payout to promoters
+            uint singlePromoterPayout = promoterAmount / events[_eventId].addresses.length;
+            for (uint16 plrIdx = 0; plrIdx < events[_eventId].addresses.length; plrIdx++) {
+                address playerAddress = events[_eventId].addresses[plrIdx];
+                withdraw(payable(userToPromoterMapping[playerAddress]), singlePromoterPayout);
             }
-        }
 
-        if (events[_eventId].payoutAddresses.length > 0) {
-            // make payout
-            uint payoutPerWinner = payoutAmount / events[_eventId].payoutAddresses.length;
-            for (uint16 pIdx = 0; pIdx < events[_eventId].payoutAddresses.length; pIdx++) {
-                withdraw(payable(events[_eventId].payoutAddresses[pIdx]), payoutPerWinner);
+            // Filling in payoutAddresses array with winners addresses for further payout
+            for (uint16 bIdx = 0; bIdx < events[_eventId].buckets.length; bIdx++) {
+                if (_bucketIdx == events[_eventId].buckets[bIdx]) {
+                    events[_eventId].payoutAddresses.push(events[_eventId].addresses[bIdx]);
+                }
             }
-            emit PayoutMade(payoutAmount);
+
+            if (events[_eventId].payoutAddresses.length > 0) {
+                // make payout
+                uint payoutPerWinner = payoutAmount / events[_eventId].payoutAddresses.length;
+                for (uint16 pIdx = 0; pIdx < events[_eventId].payoutAddresses.length; pIdx++) {
+                    withdraw(payable(events[_eventId].payoutAddresses[pIdx]), payoutPerWinner);
+                }
+                emit PayoutMade(payoutAmount);
+            } else {
+                // increase jackPot and try to play it
+                jackPot += payoutAmount;
+                emit JackPotIncreased(jackPot);
+                jackPotChallenge(jackPot, _eventId);
+            }
+
+            events[_eventId].status = EventStatus.PAYOUT_WAS_DONE;
         } else {
-            // increase jackPot and try to play it
-            jackPot += payoutAmount;
-            emit JackPotIncreased(jackPot);
-            jackPotChallenge(jackPot, _eventId);
+            events[_eventId].status = EventStatus.PAYOUT_WAS_DONE;
         }
-
-        events[_eventId].status = EventStatus.PAYOUT_WAS_DONE;
     }
 
     function jackPotChallenge(

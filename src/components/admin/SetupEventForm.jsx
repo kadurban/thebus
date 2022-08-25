@@ -1,31 +1,28 @@
 import {useContext, useState, useRef} from "react";
 import { ethers } from "ethers";
+import { Moralis } from 'moralis';
 import { useForm } from "react-hook-form";
 import html2canvas from 'html2canvas';
 import { AppSettingsContext } from "../../appSettingsContext";
-import Logo from "../Logo";
-import imageBgFootball from "../../images/bg-football.jpg";
+import PreviewFootball from '../PreviewFootball';
 
 function SetupEventForm() {
   const { contract } = useContext(AppSettingsContext);
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [ eventType, setEventType ] = useState('');
-  const previewRef = useRef(null);
   const [ previewTeam1Logo, setPreviewTeam1Logo ] = useState(null);
   const [ previewTeam2Logo, setPreviewTeam2Logo] = useState(null);
+  const previewRef = useRef(null);
   const team1LogoReader = new FileReader();
   const team2LogoReader = new FileReader();
 
-  const onSubmit = async ({ eventType, title, voteSize }) => {
-    const imageUrl = '';
+  const onSubmit = async ({ eventType, team1name, team2name, voteSize }) => {
     const voteSizeParsed = ethers.utils.parseEther(voteSize);
-    console.log({eventType, title, imageUrl, voteSizeParsed});
-    // const eventId = await contract.setupEvent(eventType, title, imageUrl, voteSizeParsed);
-    // console.log(eventId);
-    html2canvas(previewRef.current).then((canvas) => {
-      // upload file
-      // document.body.appendChild(canvas);
-    });
+    await contract.setupEvent(
+      eventType,
+      team1name + ' vs ' + team2name,
+      voteSizeParsed
+    );
   };
 
   const handleChangeEventType = ({ target: { value }}) => {
@@ -129,29 +126,14 @@ function SetupEventForm() {
           <h1 className="subtitle text-center">
             Cover preview:
           </h1>
-          {eventType === '0' && <div className="relative" ref={previewRef}>
-            <img src={imageBgFootball} alt="preview"/>
-            <div className="absolute flex w-full top-0 h-full border-gold-4">
-              <div className="absolute left-1/2 -ml-14 bottom-3/4">
-                <div className="m-auto">
-                  <Logo color="white"/>
-                </div>
-              </div>
-              {previewTeam1Logo && <div className="basis-1/2 flex">
-                <div className="m-auto w-1/2 w-1/2 p-3 bg-white rounded-3xl aspect-square flex border-gold-4">
-                  <img src={previewTeam1Logo} alt="team1logo" className="aspect-square object-contain m-auto"/>
-                </div>
-              </div>}
-              {previewTeam1Logo && previewTeam2Logo && (
-                <div className="text-white text-5xl top-1/2 absolute w-full text-center -rotate-45 -mt-5">VS</div>
-              )}
-              {previewTeam2Logo && <div className="basis-1/2 flex">
-                <div className="m-auto w-1/2 w-1/2 p-3 bg-white rounded-3xl aspect-square flex border-gold-4">
-                  <img src={previewTeam2Logo} alt="team2logo" className="aspect-square object-contain m-auto"/>
-                </div>
-              </div>}
-            </div>
-          </div>}
+          <div ref={previewRef}>
+            {eventType === '0' && (
+              <PreviewFootball
+                previewTeam1Logo={previewTeam1Logo}
+                previewTeam2Logo={previewTeam2Logo}
+              />
+            )}
+          </div>
         </div>
       </div>
     </>

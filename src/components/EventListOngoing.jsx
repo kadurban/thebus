@@ -1,44 +1,62 @@
 import { useState, useEffect, useContext } from 'react';
-import {AppSettingsContext} from "../appSettingsContext";
-import EventItem from "./EventItem";
+import { MdMoreHoriz } from 'react-icons/md';
+import { AppSettingsContext } from "../appSettingsContext";
+import FootballEventItem from "./FootballEventItem";
 
 function EventListOngoing() {
   const { contract } = useContext(AppSettingsContext);
   const [ eventsCount, setEventsCount ] = useState(null);
   const [ events, setEvents ] = useState([]);
+  const [ lastLoadedEvent, setLastLoadedEvent ] = useState([]);
 
-  // async function getEventsCount() {
-  //   const eventsCount = await contract.getEventsCount();
-  //   console.log('+++');
-  //   console.log(eventsCount);
-  //   setEventsCount(eventsCount);
-  //
-  //   if (eventsCount > 0) {
-  //     for (let i = 1; i <= eventsCount && i <= 9; i++) {
-  //       await getEventData(i);
-  //     }
-  //   }
-  // }
-  //
-  // async function getEventData(id) {
-  //   const { pot, title, voteSize, buckets } = await contract.getEventData(id);
-  //   setEvents([...events, { id, pot, title, voteSize, buckets }])
-  // }
-
-  async function getEventsCount() {
+  const getEventsCount = async () => {
     const eventsCount = await contract.lastEventId();
     setEventsCount(eventsCount);
-  }
+  };
+
+  const getLatestEventsData = async (limit) => {
+    let requestedEvents = [];
+    for (let count = eventsCount; count > 0 && count > eventsCount - limit; count--) {
+      console.log('eventsCount - limit', eventsCount - limit);
+      const eventData = await contract.getEventData(count);
+      requestedEvents.push({ id: count, ...eventData });
+      setLastLoadedEvent(count);
+    }
+    setEvents(requestedEvents);
+  };
+
+  const loadOneMore = async (lastLoadedEvent) => {
+    lastLoadedEvent--;
+    if (lastLoadedEvent <= 0) return;
+    console.log('000000');
+    const eventData = await contract.getEventData(lastLoadedEvent);
+    setEvents([...events, { id: lastLoadedEvent, ...eventData }]);
+    setLastLoadedEvent(lastLoadedEvent);
+  };
 
   useEffect(() => {
     getEventsCount();
   }, []);
 
+  useEffect(() => {
+    if (eventsCount > 0) getLatestEventsData(3);
+  }, [ eventsCount ]);
+
   return (
     <>
-      Total events: {eventsCount}
-      <div className="grid grid-cols-3 gap-4">
-        {events.map((event) => <EventItem key={event.id} {...event}/>)}
+      <h1 className="page-title">
+        Events <small>({eventsCount})</small>
+      </h1>
+      <div className="grid grid-cols-3 gap-8">
+        {events.map((event) => <FootballEventItem key={event.id} {...event}/>)}
+      </div>
+
+      <div className="flex my-8">
+        {lastLoadedEvent > 1 && (
+          <button className="flex m-auto btn btn-white" onClick={() => loadOneMore(lastLoadedEvent)}>
+            <MdMoreHoriz size="1.5rem" className="mr-2"/> Show more events
+          </button>
+        )}
       </div>
     </>
   );

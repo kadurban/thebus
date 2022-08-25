@@ -11,21 +11,8 @@ root.render(
   </MoralisProvider>
 );
 
-window.eventManagerContractAddress = '0x5724AD9E48Cb96CA1b0112ea990Dc630001Ea1EE';
+window.eventManagerContractAddress = '0xed5e415b29daB129CD8A8bd2835b826a0d32fc8b';
 window.eventManagerContractAbi = [
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_adminAddress",
-        "type": "address"
-      }
-    ],
-    "name": "addAdmin",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
   {
     "inputs": [
       {
@@ -64,24 +51,6 @@ window.eventManagerContractAbi = [
     "type": "event"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint32",
-        "name": "_eventId",
-        "type": "uint32"
-      },
-      {
-        "internalType": "uint16",
-        "name": "_bucketIdx",
-        "type": "uint16"
-      }
-    ],
-    "name": "payout",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "anonymous": false,
     "inputs": [
       {
@@ -93,118 +62,6 @@ window.eventManagerContractAbi = [
     ],
     "name": "PayoutMade",
     "type": "event"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_adminAddress",
-        "type": "address"
-      }
-    ],
-    "name": "removeAdmin",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint8",
-        "name": "_percent",
-        "type": "uint8"
-      }
-    ],
-    "name": "setCommissionPercent",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint32",
-        "name": "_eventId",
-        "type": "uint32"
-      }
-    ],
-    "name": "setEventStatusToVotingDisabled",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint8",
-        "name": "_frequency",
-        "type": "uint8"
-      }
-    ],
-    "name": "setJackPotFrequency",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint8",
-        "name": "_percent",
-        "type": "uint8"
-      }
-    ],
-    "name": "setPromoterPercent",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "_title",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_voteSize",
-        "type": "uint256"
-      }
-    ],
-    "name": "setupEvent",
-    "outputs": [
-      {
-        "internalType": "uint32",
-        "name": "",
-        "type": "uint32"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint32",
-        "name": "_eventId",
-        "type": "uint32"
-      },
-      {
-        "internalType": "uint16",
-        "name": "_bucketIdx",
-        "type": "uint16"
-      },
-      {
-        "internalType": "address",
-        "name": "_promoter",
-        "type": "address"
-      }
-    ],
-    "name": "submitVote",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
   },
   {
     "anonymous": false,
@@ -224,6 +81,19 @@ window.eventManagerContractAbi = [
     ],
     "name": "VoteSubmitted",
     "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_adminAddress",
+        "type": "address"
+      }
+    ],
+    "name": "addAdmin",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
     "inputs": [],
@@ -270,6 +140,11 @@ window.eventManagerContractAbi = [
       {
         "components": [
           {
+            "internalType": "uint8",
+            "name": "eventType",
+            "type": "uint8"
+          },
+          {
             "internalType": "enum EventManager.EventStatus",
             "name": "status",
             "type": "uint8"
@@ -277,6 +152,11 @@ window.eventManagerContractAbi = [
           {
             "internalType": "string",
             "name": "title",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "imageUrl",
             "type": "string"
           },
           {
@@ -372,6 +252,24 @@ window.eventManagerContractAbi = [
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "_eventId",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint16",
+        "name": "_bucketIdx",
+        "type": "uint16"
+      }
+    ],
+    "name": "payout",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "promoterPercent",
     "outputs": [
@@ -382,6 +280,128 @@ window.eventManagerContractAbi = [
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_adminAddress",
+        "type": "address"
+      }
+    ],
+    "name": "removeAdmin",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint8",
+        "name": "_percent",
+        "type": "uint8"
+      }
+    ],
+    "name": "setCommissionPercent",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "_eventId",
+        "type": "uint32"
+      }
+    ],
+    "name": "setEventStatusToVotingDisabled",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint8",
+        "name": "_frequency",
+        "type": "uint8"
+      }
+    ],
+    "name": "setJackPotFrequency",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint8",
+        "name": "_percent",
+        "type": "uint8"
+      }
+    ],
+    "name": "setPromoterPercent",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint8",
+        "name": "_eventType",
+        "type": "uint8"
+      },
+      {
+        "internalType": "string",
+        "name": "_title",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_imageUrl",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_voteSize",
+        "type": "uint256"
+      }
+    ],
+    "name": "setupEvent",
+    "outputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "_eventId",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint16",
+        "name": "_bucketIdx",
+        "type": "uint16"
+      },
+      {
+        "internalType": "address",
+        "name": "_promoter",
+        "type": "address"
+      }
+    ],
+    "name": "submitVote",
+    "outputs": [],
+    "stateMutability": "payable",
     "type": "function"
   },
   {
